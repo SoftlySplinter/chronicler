@@ -36,9 +36,9 @@ Accept: application/json
 ```
 ```json
 {
-  log: /path/to/log,
-  format: log format (optional, defaults to the syslog format),
-  name: name (optional)
+  'log': '/path/to/log',
+  'format': 'log format (optional, defaults to the syslog format)',
+  'name': 'name (optional)'
 }
 ```
 
@@ -46,10 +46,10 @@ This will return:
 
 ```json
 {
-  id: log id,
-  log: /path/to/log,
-  format: log format,
-  name: log name
+  'id': 'log id',
+  'log': '/path/to/log',
+  'format': 'log format',
+  'name': 'log name'
 }
 ```
 
@@ -64,7 +64,7 @@ Returns:
 
 ```json
 {
-  logs: [ids, ...]
+  'logs': ['ids', ...]
 }
 ```
 
@@ -79,10 +79,10 @@ Returns:
 
 ```json
 {
-  id: log id,
-  log: /path/to/log,
-  format: log format,
-  name: log name
+  'id': 'log id',
+  'log': '/path/to/log',
+  'format': 'log format',
+  'name': 'log name'
 }
 ```
 
@@ -106,9 +106,9 @@ Accept: application/json
 ```
 ```json
 {
-  name: process name,
-  pid: process id (optional),
-  logs: [log ids,...] (optional)
+  'name': 'process name',
+  'pid': 'process id (optional)',
+  'logs': ['log id',...] (optional)
 }
 ```
 
@@ -118,9 +118,9 @@ Returns:
 
 ```json
 {
-  name: process name,
-  pid: process id,
-  logs: [log ids,...]
+  'name': 'process name',
+  'pid': 'process id',
+  'logs': ['log id',...]
 }
 ```
 
@@ -134,7 +134,7 @@ Accept: application/json
 ```
 ```json
 {
-  processes: [ps1,...]
+  'processes': ['ps name',...]
 }
 ```
 
@@ -146,9 +146,9 @@ Accept: application/json
 ```
 ```
 {
-  name: process name,
-  pid: process id,
-  logs: [log ids,...]
+  'name': 'process name',
+  'pid': 'process id',
+  'logs': ['log id',...]
 }
 ```
 
