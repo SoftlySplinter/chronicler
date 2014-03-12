@@ -16,6 +16,9 @@ config = {
     'test_requires': ['nose'],
     'packages': ['chronicler'],
     'scripts': [],
+    'entry_points': {
+        'console_scripts': ['chronicler = chronicler:run']
+    },
     'name': 'Chronicler'
 }
 

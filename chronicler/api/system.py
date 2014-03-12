@@ -1,17 +1,20 @@
 import json
+import logging
 from flask import Blueprint, request
 
-from chronicler import chronicler
+import chronicler
 
 system = Blueprint('system', __name__)
 
-@system.route('/logs' methods=['GET', 'POST']
+@system.route('/logs', methods=['GET', 'POST'])
 def logs():
   if request.method == 'GET':
     return (json.dumps(chronicler.system.logs), 200)
   if request.method == 'POST':
     details = request.get_json()
+    print details
     try:
-      chronicler.system.create_log(details)
+      chronicler.add_syslog(details)
     except Exception as e:
-      return (json.dumps({'error': e}), 400)
+      logging.exception(e)
+      return (json.dumps({'error': str(e)}), 400)

@@ -1,11 +1,12 @@
 import json
 from flask import Flask
 
-from chronicler import chronicler
+import chronicler
 from chronicler.api.system import system
 from chronicler.api.process import process
 
 api = Flask('chronicler')
+api.register_blueprint(system, url_prefix = '/system')
 
 @api.route('/start', methods=['POST'])
 def start():
@@ -13,7 +14,7 @@ def start():
     chronicler.start()
     return ("", 200)
   except Exception as e:
-    return (json.dumps({'error': e}), 400)
+    return (json.dumps({'error': str(e)}), 400)
 
 @api.route('/stop', methods=['POST'])
 def stop():
@@ -21,6 +22,6 @@ def stop():
     chronicler.stop()
     return ("", 200)
   except Exception as e:
-    return (json.dumps({'error': e}), 400)
+    return (json.dumps({'error': str(e)}), 400)
 
 
