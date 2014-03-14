@@ -35,6 +35,12 @@ def stop():
   __chronicler.stop()
   __chronicler = None
 
+def system():
+  global __chronicler
+  if not __chronicler:
+    raise Exception("Chronicler not started")
+  return __chronicler.syslog
+
 def add_syslog(properties):
   if not __chronicler:
     raise Exception("Chronicler not started")
