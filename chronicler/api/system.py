@@ -22,3 +22,13 @@ def logs():
   except Exception as e:
       logging.exception(e)
       return (json.dumps({'error': str(e)}), 400)
+
+@system.route('/logs/<id>', methods=['GET', 'DELETE'])
+def log(id):
+  try:
+    log = chronicler.system().logs[int(id)]
+    if request.method == 'GET':
+      return json.dumps(log.dict())
+  except Exception as e:
+    logging.exception(e)
+    return (json.dumps({'error': str(e)}), 400)

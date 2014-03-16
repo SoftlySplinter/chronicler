@@ -5,10 +5,12 @@ from threading import Thread
 from chronicler.system import SyslogChronicler 
 
 class Chronicler(Thread):
+  """The main threaded class which handles log watching."""
   lastrun = time.time()
   syslog = SyslogChronicler()
 
   def stop(self):
+    """Stops watching"""
     self.running = False
 
   def run(self):
