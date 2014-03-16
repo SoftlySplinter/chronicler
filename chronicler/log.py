@@ -1,3 +1,5 @@
+import json
+
 class Log(object):
   """Stores information about a logfile."""
 
@@ -6,8 +8,14 @@ class Log(object):
     return hash(properties['log'])
 
   def __init__(self, properties):
-    self.file = properties.log
+    self.file = properties['log']
 
   @property
   def id(self):
-    return hash(self.logfile)
+    return hash(self.file)
+
+  def dict(self):
+    return {
+      'id': self.id,
+      'file': self.file,
+    }

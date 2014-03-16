@@ -15,8 +15,8 @@ class Chronicler(Thread):
     """Loop until stop is called. Automatically called by Thread.start"""
     self.running = True
     while self.running:
-      for (id, log) in self.syslog.logs:
-        print id
+      for log in self.syslog.logs.iteritems():
+        print log
       time.sleep(0.01)
 
 __chronicler = None
@@ -44,7 +44,7 @@ def system():
 def add_syslog(properties):
   if not __chronicler:
     raise Exception("Chronicler not started")
-  __chronicler.syslog.add_log(properties)
+  return __chronicler.syslog.add_log(properties)
 
 from chronicler.api import api
 

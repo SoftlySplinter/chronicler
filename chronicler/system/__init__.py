@@ -6,7 +6,8 @@ class SyslogChronicler(object):
 
   def add_log(self, log_properties):
     if Log.get_id(log_properties) not in self.logs:
-      watcher = LogWatcher(log_properties)
+      watcher = Log(log_properties)
       self.logs[watcher.id] = watcher
+      return watcher
     else:
       raise Exception("Log '{0}' already exists".format(log_properties['log']))
