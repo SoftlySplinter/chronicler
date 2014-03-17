@@ -1,3 +1,4 @@
 {
-  "log": "/var/log/syslog"
+  "log": "/var/log/syslog",
+  "format": "%TIMESTAMP% %HOST% %syslogtag%: %msg%"
 }

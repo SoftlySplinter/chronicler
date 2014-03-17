@@ -12,8 +12,10 @@ config = {
     'download_url':'https://github.com/SoftlySplinter/chronicler/archive/master.zip',
     'author_email': 'alex@alexanderdbrown.com',
     'version': '0.1',
-    'install_requires': ['flask'],
-    'test_requires': ['nose'],
+    'install_requires': [
+      'flask', 
+      'pyparsing==2.0.1',
+    ],
     'packages': ['chronicler'],
     'scripts': [],
     'entry_points': {

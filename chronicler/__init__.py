@@ -1,8 +1,10 @@
 import time
-import signal
+import logging
 from threading import Thread
 
 from chronicler.system import SyslogChronicler 
+
+logging.getLogger().setLevel(0)
 
 class Chronicler(Thread):
   """The main threaded class which handles log watching."""
@@ -16,9 +18,10 @@ class Chronicler(Thread):
   def run(self):
     """Loop until stop is called. Automatically called by Thread.start"""
     self.running = True
+    logging.info("test")
     while self.running:
-      for log in self.syslog.logs.iteritems():
-        print log
+      for (_, log) in self.syslog.logs.iteritems():
+        log.parse(logging.info)
       time.sleep(0.01)
 
 __chronicler = None

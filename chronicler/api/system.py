@@ -23,12 +23,17 @@ def logs():
       logging.exception(e)
       return (json.dumps({'error': str(e)}), 400)
 
-@system.route('/logs/<id>', methods=['GET', 'DELETE'])
+@system.route('/logs/<string:id>', methods=['GET', 'DELETE'])
 def log(id):
+  log_id = int(id)
   try:
-    log = chronicler.system().logs[int(id)]
     if request.method == 'GET':
-      return json.dumps(log.dict())
+      return json.dumps(chronicler.system().logs[log_id].dict())
+    if request.method == 'DELETE':
+      chronicler.system().logs.pop(log_id)
+      return ("", 200)
+  except KeyError as e:
+    return (json.dumps({'error': '{0} does not exist'.format(log_id)}), 404)
   except Exception as e:
     logging.exception(e)
-    return (json.dumps({'error': str(e)}), 400)
+    return (json.dumps({'error': str(e)}), 500)
