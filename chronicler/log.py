@@ -40,6 +40,8 @@ class LogFormat(object):
       parsed = self.pattern.parseString(line)
       res['TIMESTAMP'] = strftime("%Y-%m-%d %H:%M:%S")
       res['HOSTNAME'] = parsed[3]
+      res['syslogtag'] = parsed[4:-1]
+      res['msg'] = parsed[-1]
       callback(res)
     except ParseException as e:
       logging.warn("Unable to parse line: '{0}' - {1}".format(line, e))
