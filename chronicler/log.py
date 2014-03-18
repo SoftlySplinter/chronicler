@@ -1,7 +1,7 @@
 import json
 import logging
 
-from pyparsing import Word, alphas, Suppress, Combine, nums, string, Optional, Regex, ParseException
+from pyparsing import Word, alphas, Suppress, Combine, nums, string, Optional, Regex, ParseException, Empty
 from time import strftime
 
 ints = Word(nums)
@@ -32,7 +32,25 @@ class LogFormat(object):
     self.pattern = self.gen_format(fmt)
 
   def gen_format(self, fmt):
-    return self.__properties['TIMESTAMP'] + self.__properties['HOSTNAME'] + self.__properties['syslogtag'] + self.__properties['msg']
+    res = Empty()
+    escape = False
+    prop = ""
+    for char in fmt:
+      if escape:
+        if char == "%":
+          escape = False
+          res = res + self.__properties[prop]
+          prop = ""
+        else:
+          prop = prop + char
+      else:
+        if char == "%":
+          escape = True
+        elif char == " ":
+          pass
+        else:
+          res = res + Suppress(char)
+    return res
 
   def parse(self, line, callback):
     try:
@@ -44,7 +62,8 @@ class LogFormat(object):
       res['msg'] = parsed[-1]
       callback(res)
     except ParseException as e:
-      logging.warn("Unable to parse line: '{0}' - {1}".format(line, e))
+      logging.warn("Unable to parse line: {0}".format(line))
+      logging.exception(e)
 
   def __str__(self):
     return self.format
