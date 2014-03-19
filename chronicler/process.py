@@ -12,7 +12,7 @@ class Process(object):
     for log in properties["logs"]:
       self.logs[Log.get_id(log)] = Log(log)
 
-  def to_dict(self):
+  def dict(self):
     return {
       'name': self.name,
       'pid': self.pid,

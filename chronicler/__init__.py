@@ -56,6 +56,12 @@ def system():
     raise Exception("Chronicler not started")
   return __chronicler.syslog
 
+def process():
+  global __chronicler
+  if not __chronicler:
+    raise Exception("Chronicler not started")
+  return __chronicler.process
+
 def add_syslog(properties):
   if not __chronicler:
     raise Exception("Chronicler not started")

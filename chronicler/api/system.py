@@ -33,7 +33,7 @@ def log(id):
       chronicler.system().logs.pop(log_id)
       return ("", 200)
   except KeyError as e:
-    return (json.dumps({'error': '{0} does not exist'.format(log_id)}), 404)
+    return (json.dumps({'error': 'Log {0} does not exist'.format(log_id)}), 404)
   except Exception as e:
     logging.exception(e)
     return (json.dumps({'error': str(e)}), 500)
