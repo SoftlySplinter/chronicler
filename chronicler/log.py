@@ -15,7 +15,7 @@ class LogFormat(object):
     'msg': Regex(".*"),
     'rawmsg': Regex(".*"),
     'HOSTNAME': Word(alphas + nums + "_" + "-" + "."),
-    'syslogtag': Group(Word(alphas + "/" + "-" + "_" + ".") + Optional(Suppress("[") + ints + Suppress("]")) + Suppress(":")),
+    'syslogtag': Group(Word(alphas + "/" + "-" + "_" + ".") + Optional(Suppress("[") + ints + Suppress("]"))) + Suppress(":"),
     'programname': Word(alphas + "/" + "-" + "_" + ".") + Optional(Suppress("[") + Suppress(ints) + Suppress("]") + Suppress(":")),
     'PRI': ints,
     'syslogfacility': None,
@@ -61,7 +61,7 @@ class LogFormat(object):
       res = {}
       parsed = self.pattern.parseString(line)
       for prop, elem in zip(self.properties, parsed):
-        if prop == "TIMESTAMP":
+        if prop in ["TIMESTAMP", 'timecreated', 'timereported']:
           res[prop] = strftime("%Y-%m-%d %H:%M:%S")
         elif prop == "syslogtag":
           res[prop] = {}
@@ -73,7 +73,6 @@ class LogFormat(object):
       callback(res)
     except ParseException as e:
       logging.warn("Unable to parse line: {0}".format(line))
-      logging.exception(e)
 
   def __str__(self):
     return self.format
@@ -108,7 +107,7 @@ class Log(object):
   def dict(self):
     return {
       'id': self.id,
-      'file': self.file,
+      'log': self.file,
       'format': str(self.format),
       'name': self.name,
     }

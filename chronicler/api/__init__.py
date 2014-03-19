@@ -7,6 +7,7 @@ from chronicler.api.process import process
 
 api = Flask('chronicler')
 api.register_blueprint(system, url_prefix = '/system')
+api.register_blueprint(process, url_prefix = '/process')
 
 @api.route('/start', methods=['POST'])
 def start():
