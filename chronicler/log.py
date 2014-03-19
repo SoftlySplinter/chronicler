@@ -22,8 +22,8 @@ class LogFormat(object):
     'syslogfacility-text': None,
     'syslogseverity': None,
     'syslogseverity-text': None,
-    'timegenerated': None,
-    'timereported': None,
+    'timegenerated': Group(month + day + hour),
+    'timereported': Group(month + day + hour),
     'TIMESTAMP': Group(month + day + hour)
   }
 
@@ -32,6 +32,7 @@ class LogFormat(object):
     self.pattern, self.properties = self.gen_format(fmt)
 
   def gen_format(self, fmt):
+    """Generates a PyParsing element based on a formatting string."""
     res = Empty()
     props = []
     escape = False
@@ -55,17 +56,20 @@ class LogFormat(object):
     return res, props
 
   def parse(self, line, callback):
+    """Parses a log line and splits it into its parsed elements."""
     try:
       res = {}
       parsed = self.pattern.parseString(line)
-      i = 0
-      for prop in self.properties:
+      for prop, elem in zip(self.properties, parsed):
         if prop == "TIMESTAMP":
           res[prop] = strftime("%Y-%m-%d %H:%M:%S")
-          i += 1
+        elif prop == "syslogtag":
+          res[prop] = {}
+          res[prop]['programname'] = elem[0]
+          if len(elem) > 1:
+            res[prop]['programid'] = elem[1]
         else:
-          res[prop] = parsed[i]
-          i += 1
+          res[prop] = elem
       callback(res)
     except ParseException as e:
       logging.warn("Unable to parse line: {0}".format(line))
