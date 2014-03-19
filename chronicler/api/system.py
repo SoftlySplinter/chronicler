@@ -10,7 +10,7 @@ system = Blueprint('system', __name__)
 def logs():
   try:
     if request.method == 'GET':
-      logs = [log.dict() for (_, log) in chronicler.system().logs.iteritems()]
+      logs = [log for log in chronicler.system().logs.keys()]
       return (json.dumps(logs), 200)
     if request.method == 'POST':
       details = request.get_json()
