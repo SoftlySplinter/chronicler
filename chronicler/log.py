@@ -19,9 +19,9 @@ class LogFormat(object):
     'programname': Word(alphas + "/" + "-" + "_" + ".") + Optional(Suppress("[") + Suppress(ints) + Suppress("]") + Suppress(":")),
     'PRI': ints,
     'syslogfacility': ints,
-    'syslogfacility-text': Words(alphas),
+    'syslogfacility-text': Word(alphas),
     'syslogseverity': ints,
-    'syslogseverity-text': Words(alphas),
+    'syslogseverity-text': Word(alphas),
     'timegenerated': Group(month + day + hour),
     'timereported': Group(month + day + hour),
     'TIMESTAMP': Group(month + day + hour)
