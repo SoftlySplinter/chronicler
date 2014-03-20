@@ -14,7 +14,7 @@ def processes():
     if not details:
       raise Exception("No data")
     process = chronicler.add_process(details)
-    return json.dumps(process.to_dict())
+    return json.dumps(process.dict())
   except Exception as e:
     logging.exception(e)
     return json.dumps({'error': str(e)}), 400
