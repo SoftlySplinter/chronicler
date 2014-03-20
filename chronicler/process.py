@@ -37,6 +37,15 @@ class Process(object):
             callback(res)
       log.parse(filter_callback)
 
+  def add_log(self, properties):
+    id = Log.get_id(properties)
+    if id not in self.logs:
+      log = Log(properties)
+      self.logs[id] = log
+      return log
+    else:
+      raise Exception("Log '{0}' already exists".format(properties['log']))
+
 class ProcessChronicler(object):
   processes = {}
 
