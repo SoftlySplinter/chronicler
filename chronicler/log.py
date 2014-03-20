@@ -68,6 +68,10 @@ class LogFormat(object):
           res[prop]['programname'] = elem[0]
           if len(elem) > 1:
             res[prop]['programid'] = elem[1]
+        elif prop == "PRI":
+          res[prop] = {}
+          res[prop]['severity'] = int(elem) % 8
+          res[prop]['facility'] = int(round(int(elem) / 8))
         else:
           res[prop] = elem
       callback(res)
