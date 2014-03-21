@@ -29,11 +29,23 @@ The REST API is as follows:
 Monitoring can be controlled through the following endpoints:
 
 ```http
-POST /start HTTP/1.1
+POST /chronicler HTTP/1.1
 ```
 
 ```http
-POST /stop HTTP/1.1
+DELETE /chronicler HTTP/1.1
+```
+
+```http
+GET /chronicler HTTP/1.1
+```
+
+Returns the following, true if the server is started, false if it is stopped.
+
+```json
+{
+  "chronicler": true
+}
 ```
 
 ### Monitor System Logs
