@@ -20,7 +20,7 @@ config = {
     'packages': ['chronicler'],
     'scripts': [],
     'entry_points': {
-        'console_scripts': ['chronicler = chronicler:run']
+        'console_scripts': ['chronicler = chronicler:run', 'syslog_gen = chronicler.gen:main']
     },
     'name': 'Chronicler'
 }
