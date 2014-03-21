@@ -52,4 +52,9 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# Virtual Environment
 env/
+
+# Vagrant
+Vagrantfile
+.vagrant

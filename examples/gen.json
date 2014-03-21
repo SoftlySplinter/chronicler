@@ -1,0 +1,4 @@
+{
+  "log": "examples/default.log",
+  "format": "<%PRI%> %TIMESTAMP% %HOSTNAME% %syslogtag%%msg%"
+}
