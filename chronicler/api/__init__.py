@@ -12,14 +12,14 @@ api.register_blueprint(process, url_prefix = '/process')
 @api.route('/chronicler', methods=['POST'])
 def start():
   try:
-    return chronicler.start()
+    return json.dumps(chronicler.start())
   except Exception as e:
     return json.dumps({'error': str(e)}), 400
 
 @api.route('/chronicler', methods=['DELETE'])
 def stop():
   try:
-    return chronicler.stop()
+    return json.dumps(chronicler.stop())
   except Exception as e:
     return json.dumps({'error': str(e)}), 400
 
