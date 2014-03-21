@@ -1,4 +1,3 @@
-from statsd import StatsClient
 import logging
 
 class Callback(object):
@@ -12,33 +11,18 @@ class Callback(object):
   def id(self):
     return "logging.debug"
 
-class StatsdCallback(Callback):
-  def __init__(self, data):
-    host = data['host']
-    port = int(data['port'])
-    self.name = "statsd.{0}:{1}".format(host, port)
-    self.client = StatsClient(host, port)
-
-  @property
-  def id(self):
-    return self.name
-
-  def callback(self, data):
-    assert 'PRI' in data
-    assert 'syslogtag' in data
-
-    sev = data['PRI']['severity']
-    name = data['syslogtag']['programname']
-    self.client.incr('chronicler.{0}.{1}'.format(name, sev))
+  def dict(self):
+    return {'id': self.id}
 
 class CallbackFactory(object):
-  __callbacks = {
-    'statsd': StatsdCallback
-  }
-
   @staticmethod
   def get_callback(type, data):
-    return CallbackFactory.__callbacks[type](data)
+    try:
+      callback_module = __import__(type, fromlist=[''])
+      return callback_module.create(data)
+    except ImportError as e:
+      logging.exception(e)
+      return Callback(data)
 
 class ChroniclerCallback(object):
   callbacks = {}
@@ -52,4 +36,5 @@ class ChroniclerCallback(object):
     if cb.id in self.callbacks:
       raise Exception('Callback {0} already exists'.format(cb.id))
     self.callbacks[cb.id] = cb
+    return cb
 

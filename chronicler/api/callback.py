@@ -15,7 +15,7 @@ def callbacks():
       details = request.get_json()
       if details is None:
         raise Exception("No data")
-      return json.dumps(chronicler.callback().add_callback(details))
+      return json.dumps(chronicler.callback().add_callback(details).dict())
   except Exception as e:
     logging.exception(e)
     return json.dumps({'error': str(e)}), 400 

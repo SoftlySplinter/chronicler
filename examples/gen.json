@@ -1,4 +1,4 @@
 {
-  "log": "examples/default.log",
+  "log": "examples/gen.log",
   "format": "<%PRI%> %TIMESTAMP% %HOSTNAME% %syslogtag%%msg%"
 }
