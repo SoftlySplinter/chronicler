@@ -10,6 +10,7 @@ Monitor your logs.
   2. [Monitor System Logs](#monitor-system-logs)
   3. [Log Format](#log-format)
   4. [Process Monitoring](#process-monitoring)
+  5. [Callback](#callback)
 3. [Dependencies](#dependencies)
 
 ## Usage
@@ -235,7 +236,7 @@ The following callbacks are provided by default:
 
 #### statsd Callback
 
-A (statsd)[https://github.com/etsy/statsd] callback is registered using the
+A [statsd](https://github.com/etsy/statsd) callback is registered using the
 following attributes:
 
 ```http
