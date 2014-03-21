@@ -9,20 +9,23 @@ api = Flask('chronicler')
 api.register_blueprint(system, url_prefix = '/system')
 api.register_blueprint(process, url_prefix = '/process')
 
-@api.route('/start', methods=['POST'])
+@api.route('/chronicler', methods=['POST'])
 def start():
   try:
-    chronicler.start()
-    return ("", 200)
+    return chronicler.start()
   except Exception as e:
-    return (json.dumps({'error': str(e)}), 400)
+    return json.dumps({'error': str(e)}), 400
 
-@api.route('/stop', methods=['POST'])
+@api.route('/chronicler', methods=['DELETE'])
 def stop():
   try:
-    chronicler.stop()
-    return ("", 200)
+    return chronicler.stop()
   except Exception as e:
-    return (json.dumps({'error': str(e)}), 400)
+    return json.dumps({'error': str(e)}), 400
 
-
+@api.route('/chronicler', methods=['GET'])
+def status():
+  try:
+    return json.dumps(chronicler.status())
+  except Exception as e:
+    return json.dumps({'error': str(e)}), 400

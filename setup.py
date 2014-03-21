@@ -15,6 +15,7 @@ config = {
     'install_requires': [
       'flask', 
       'pyparsing==2.0.1',
+      'statsd',
     ],
     'packages': ['chronicler'],
     'scripts': [],

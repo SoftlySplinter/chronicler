@@ -4,6 +4,7 @@ from threading import Thread, Lock
 
 from chronicler.system import SyslogChronicler 
 from chronicler.process import ProcessChronicler 
+from chronicler.callback import statsd_callback as callback
 
 logging.getLogger().setLevel(0)
 
@@ -13,6 +14,7 @@ class Chronicler(Thread):
   syslog = SyslogChronicler()
   process = ProcessChronicler()
   __queue = []
+  running = False
 
   def stop(self):
     """Stops watching"""
@@ -24,7 +26,7 @@ class Chronicler(Thread):
     logging.info("test")
     lock = Lock()
     while self.running:
-      self.process.parse(logging.info)
+      self.process.parse(callback)
 #      with lock:
 #        for (_, log) in self.syslog.logs.items():
 #          log.parse(self.no_op)
@@ -34,45 +36,53 @@ class Chronicler(Thread):
   def no_op(self, args):
     pass
 
-__chronicler = None
+__chronicler = Chronicler
 
 def start():
   global __chronicler
-  if __chronicler:
+  if __chronicler.running:
     raise Exception("Chronicler already started")
   __chronicler = Chronicler()
   __chronicler.start()
+  return status()
 
 def stop():
   global __chronicler
-  if not __chronicler:
+  if not __chronicler.running:
     raise Exception("Chronicler not started")
   __chronicler.stop()
-  __chronicler = None
+  return status()
+#  __chronicler = None
 
 def system():
   global __chronicler
-  if not __chronicler:
+  if not __chronicler.running:
     raise Exception("Chronicler not started")
   return __chronicler.syslog
 
 def process():
   global __chronicler
-  if not __chronicler:
+  if not __chronicler.running:
     raise Exception("Chronicler not started")
   return __chronicler.process
 
 def add_syslog(properties):
-  if not __chronicler:
+  global __chronicler
+  if not __chronicler.running:
     raise Exception("Chronicler not started")
   return __chronicler.syslog.add_log(properties)
 
 def add_process(properties):
-  if not __chronicler:
+  global __chronicler
+  if not __chronicler.running:
     raise Exception("Chronicler not started")
   if 'logs' not in properties:
     properties['logs'] = [log.dict() for _, log in __chronicler.syslog.logs.items()]
   return __chronicler.process.add_process(properties)
+
+def status():
+  global __chronicler
+  return {'chronicler': __chronicler.running}
 
 from chronicler.api import api
 
