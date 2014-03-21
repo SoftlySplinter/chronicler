@@ -204,6 +204,52 @@ Removing a process from monitoring
 DELETE /process/:id HTTP/1.1
 ```
 
+
+### Callback
+
+Callback (reporting the details of the monitored logs/processes) is done using
+the following REST endpoints.
+
+Get all callbacks:
+
+```http
+GET /callback HTTP/1.1
+```
+
+Create a callback:
+
+```http
+POST /callback HTTP/1.1
+Content-Type: application/json
+```
+```json
+{
+  "type": "callback",
+  callback specific details
+}
+```
+
+The following callbacks are provided by default:
+
+* statsd
+
+#### statsd Callback
+
+A (statsd)[https://github.com/etsy/statsd] callback is registered using the
+following attributes:
+
+```http
+POST /callback HTTP/1.1
+Content-Type: application/json
+```
+```json
+{
+  "type": "statsd",
+  "host": "statsd.example.com",
+  "port": 8125
+}
+```
+
 ## Dependencies
 
 Requires Python 2.7 and Python setuptools.
