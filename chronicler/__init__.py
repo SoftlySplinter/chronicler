@@ -28,10 +28,7 @@ class Chronicler(Thread):
     lock = Lock()
     while self.running:
       self.process.parse(self.callback.callback)
-#      with lock:
-#        for (_, log) in self.syslog.logs.items():
-#          log.parse(self.no_op)
-          
+      self.syslog.parse(self.callback.callback)        
       time.sleep(0.01)
 
   def no_op(self, args):

@@ -15,3 +15,9 @@ class SyslogChronicler(object):
         return watcher
       else:
         raise Exception("Log '{0}' already exists".format(log_properties['log']))
+
+  def parse(self, callback):
+    lock = Lock()
+    with lock:
+      for log in self.logs:
+        self.logs[log].parse("system", callback)

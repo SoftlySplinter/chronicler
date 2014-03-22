@@ -28,14 +28,14 @@ class Process(object):
 
   def parse(self, callback):
     for _, log in self.logs.items():
-      def filter_callback(res):
+      def filter_callback(tag, res):
         if 'syslogtag' in res:
           if self.pid and 'pid' in res['syslogtag']:
             if self.pid == res['syslogtag']['pid']:
-              callback(res)
+              callback(tag, res)
           elif self.name == res['syslogtag']['programname']:
-            callback(res)
-      log.parse(filter_callback)
+            callback(tag, res)
+      log.parse("process", filter_callback)
 
   def add_log(self, properties):
     id = Log.get_id(properties)

@@ -16,13 +16,13 @@ class StatsdCallback(Callback):
   def id(self):
     return self.name
 
-  def callback(self, data):
+  def callback(self, tag, data):
     assert 'PRI' in data
     assert 'syslogtag' in data
 
-    sev = data['PRI']['severity']
+    sev = data['PRI']['severitytext']
     name = data['syslogtag']['programname']
-    self.client.incr('chronicler.{0}.{1}'.format(name, sev))
+    self.client.incr('chronicler.{0}.{1}.{2}'.format(tag, name, sev))
 
 def create(data):
   return StatsdCallback(data)

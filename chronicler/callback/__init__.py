@@ -4,8 +4,8 @@ class Callback(object):
   def __init__(self, data):
     pass
 
-  def callback(self, data):
-    logging.debug(data)
+  def callback(self, tag, data):
+    logging.debug("{0}: {1}".format(tag,data))
 
   @property
   def id(self):
@@ -26,9 +26,9 @@ class CallbackFactory(object):
 
 class ChroniclerCallback(object):
   callbacks = {}
-  def callback(self, data):
+  def callback(self, tag, data):
     for _, cb in self.callbacks.items():
-      cb.callback(data)
+      cb.callback(tag, data)
 
   def add_callback(self, data):
     type = data['type']
