@@ -20,4 +20,4 @@ class SyslogChronicler(object):
     lock = Lock()
     with lock:
       for log in self.logs:
-        self.logs[log].parse("system", callback)
+        self.logs[log].parse("system.{0}".format(self.logs[log].file), callback)
