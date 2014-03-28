@@ -10,6 +10,7 @@ Monitor your logs.
   2. [Monitor System Logs](#monitor-system-logs)
   3. [Log Format](#log-format)
   4. [Process Monitoring](#process-monitoring)
+  5. [Callback](#callback)
 3. [Dependencies](#dependencies)
 
 ## Usage
@@ -28,11 +29,23 @@ The REST API is as follows:
 Monitoring can be controlled through the following endpoints:
 
 ```http
-POST /start HTTP/1.1
+POST /chronicler HTTP/1.1
 ```
 
 ```http
-POST /stop HTTP/1.1
+DELETE /chronicler HTTP/1.1
+```
+
+```http
+GET /chronicler HTTP/1.1
+```
+
+Returns the following, true if the server is started, false if it is stopped.
+
+```json
+{
+  "chronicler": true
+}
 ```
 
 ### Monitor System Logs
@@ -202,6 +215,52 @@ Removing a process from monitoring
 
 ```http
 DELETE /process/:id HTTP/1.1
+```
+
+
+### Callback
+
+Callback (reporting the details of the monitored logs/processes) is done using
+the following REST endpoints.
+
+Get all callbacks:
+
+```http
+GET /callback HTTP/1.1
+```
+
+Create a callback:
+
+```http
+POST /callback HTTP/1.1
+Content-Type: application/json
+```
+```json
+{
+  "type": "callback",
+  callback specific details
+}
+```
+
+The following callbacks are provided by default:
+
+* statsd
+
+#### statsd Callback
+
+A [statsd](https://github.com/etsy/statsd) callback is registered using the
+following attributes:
+
+```http
+POST /callback HTTP/1.1
+Content-Type: application/json
+```
+```json
+{
+  "type": "statsd",
+  "host": "statsd.example.com",
+  "port": 8125
+}
 ```
 
 ## Dependencies

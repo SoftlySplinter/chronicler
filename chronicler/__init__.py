@@ -4,7 +4,7 @@ from threading import Thread, Lock
 
 from chronicler.system import SyslogChronicler 
 from chronicler.process import ProcessChronicler 
-from chronicler.callback import statsd_callback as callback
+from chronicler.callback import ChroniclerCallback
 
 logging.getLogger().setLevel(0)
 
@@ -12,6 +12,7 @@ class Chronicler(Thread):
   """The main threaded class which handles log watching."""
   lastrun = time.time()
   syslog = SyslogChronicler()
+  callback = ChroniclerCallback()
   process = ProcessChronicler()
   __queue = []
   running = False
@@ -26,11 +27,8 @@ class Chronicler(Thread):
     logging.info("test")
     lock = Lock()
     while self.running:
-      self.process.parse(callback)
-#      with lock:
-#        for (_, log) in self.syslog.logs.items():
-#          log.parse(self.no_op)
-          
+      self.process.parse(self.callback.callback)
+      self.syslog.parse(self.callback.callback)        
       time.sleep(0.01)
 
   def no_op(self, args):
@@ -65,6 +63,12 @@ def process():
   if not __chronicler.running:
     raise Exception("Chronicler not started")
   return __chronicler.process
+
+def callback():
+  global __chronicler
+  if not __chronicler.running:
+    raise Exception("Chronicler not started")
+  return __chronicler.callback
 
 def add_syslog(properties):
   global __chronicler

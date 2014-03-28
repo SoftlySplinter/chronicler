@@ -1,0 +1,5 @@
+{
+  "type": "chronicler.callback.statsd",
+  "host": "localhost",
+  "port": 8125
+}

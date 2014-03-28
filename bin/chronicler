@@ -1,17 +1,33 @@
-#!/bin/sh
+PID=chronicler.pid
 
 case "$1" in
 start)
-  echo "Starting chronicler"
+  echo "Starting Chronicler"
+  gunicorn --daemon --log-syslog --pid ${PID} --workers 4 --bind 127.0.0.1:8080 chronicler:api
 ;;
 stop)
-  echo "Stopping chronicler"
+  echo "Stopping Chronicler"
+  kill `cat ${PID}`
+  rm ${PID}
 ;;
 restart)
-  echo "Restarting chronicler"
+  if [ -f ${PID} ]
+  then
+    echo "Restarting Chronicler"
+    $0 stop
+    $0 start
+  else
+    echo "Chronicler not started"
+    exit 255
+  fi
 ;;
 status)
-  echo "chronicler stopped"
+   if [ -f ${PID} ]
+   then
+     echo "Chronicler running"
+   else
+     echo "Chronicler stopped"
+   fi
 ;;
 *)
   echo "Usage: $0 {start|stop|restart|status}"

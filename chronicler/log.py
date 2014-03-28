@@ -11,6 +11,44 @@ day   = ints
 hour  = Combine(ints + ":" + ints + ":" + ints)
 
 class LogFormat(object):
+  __severity_levels = {
+    0: "emerg",
+    1: "alert",
+    2: "crit",
+    3: "error",
+    4: "warning",
+    5: "notice",
+    6: "info",
+    7: "debug",
+  }
+
+  __facility_levels = {
+    0: "kern",
+    1: "user",
+    2: "mail",
+    3: "daemon",
+    4: "auth",
+    5: "syslog",
+    6: "lpr",
+    7: "news",
+    8: "uucp",
+    9: "",
+    10: "authpriv",
+    11: "ftp",
+    12: None,
+    13: None,
+    14: None,
+    15: "cron",
+    16: "local0",
+    17: "local1",
+    18: "local2",
+    19: "local3",
+    20: "local4",
+    21: "local5",
+    22: "local6",
+    23: "local7",
+  }
+
   __properties = {
     'msg': Regex(".*"),
     'rawmsg': Regex(".*"),
@@ -55,7 +93,7 @@ class LogFormat(object):
           res = res + Suppress(char)
     return res, props
 
-  def parse(self, line, callback):
+  def parse(self, line, tag, callback):
     """Parses a log line and splits it into its parsed elements."""
     try:
       res = {}
@@ -71,10 +109,12 @@ class LogFormat(object):
         elif prop == "PRI":
           res[prop] = {}
           res[prop]['severity'] = int(elem) % 8
+          res[prop]['severitytext'] = self.__severity_levels[int(elem) % 8]
           res[prop]['facility'] = int(round(int(elem) / 8))
+          res[prop]['facilitytext'] = self.__facility_levels[int(elem) / 8]
         else:
           res[prop] = elem
-      callback(res)
+      callback(tag, res)
     except ParseException as e:
       logging.warn("Unable to parse line: {0}".format(line))
 
@@ -116,9 +156,9 @@ class Log(object):
       'name': self.name,
     }
 
-  def parse(self, callback):
+  def parse(self, tag, callback):
     with open(self.file, 'r') as log:
       log.seek(self.loc)
       for line in log:
-        self.format.parse(line, callback)
+        self.format.parse(line, tag, callback)
       self.loc = log.tell()
