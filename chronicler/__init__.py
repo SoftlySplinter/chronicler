@@ -24,12 +24,12 @@ class Chronicler(Thread):
   def run(self):
     """Loop until stop is called. Automatically called by Thread.start"""
     self.running = True
-    logging.info("test")
     lock = Lock()
     while self.running:
+      self.run_time = time.time()
       self.process.parse(self.callback.callback)
       self.syslog.parse(self.callback.callback)        
-      time.sleep(0.01)
+      time.sleep(0)
 
   def no_op(self, args):
     pass
