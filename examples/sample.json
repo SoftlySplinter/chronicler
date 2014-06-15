@@ -1,4 +1,0 @@
-{
-  "log": "examples/sample.log",
-  "format": "<%PRI%> %TIMESTAMP% %HOSTNAME% %syslogtag%%msg%"
-}
