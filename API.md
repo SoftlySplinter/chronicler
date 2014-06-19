@@ -1,6 +1,8 @@
 # Daemon
 
-Creation of a daemon is done through a POST.
+## Creation
+
+Request
 
 ```http
 POST /daemon HTTP/1.1
@@ -10,6 +12,9 @@ POST /daemon HTTP/1.1
   "name": "chronicler",
 }
 ```
+
+Response
+
 ```http
 HTTP/1.1 200 OK
 ```
@@ -22,13 +27,20 @@ HTTP/1.1 200 OK
 }
 ```
 
-Viewing the status of a daemon is done through a GET
+## Status
+
+Request
 
 ```http
 GET /daemon/chronicler
+```
 
+Response
+
+```http
 HTTP/1.1 200 OK
-
+```
+```json
 {
   "name": "chronicler",
   "running": true,
@@ -37,17 +49,25 @@ HTTP/1.1 200 OK
 }
 ```
 
-To pause a daemon, PATCH is used
+## Pause/Resume
+
+Request
 
 ```http
 PATCH /daemon/chronicler HTTP/1.1
-
+```
+```json
 {
   "pause": true
 }
+```
 
+Response
+
+```http
 HTTP/1.1 200 OK
-
+```
+```json
 {
   "name": "chronicler",
   "running": false,
@@ -56,11 +76,17 @@ HTTP/1.1 200 OK
 }
 ```
 
-To stop and remove a daemon, DELETE is used
+## Deletion
+
+Request
 
 ```http
 DELETE /daemon/chronicler HTTP/1.1
+```
 
+Response
+
+```http
 HTTP/1.1 200 OK  
 ```
 
