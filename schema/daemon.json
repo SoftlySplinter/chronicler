@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Daemon",
+  "description": "Daemon for the Chronicler log monitor",
+  "type": "object",
+  "properties": [
+    "name": {
+      "description": "Name of the Daemon"
+      "type": "string"
+    }
+  ],
+  "required": [ "name" ]
+}

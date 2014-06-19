@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Log",
+  "description": "Log file",
+  "type": "object",
+  "properties": [
+    "file": {
+      "type": "string"
+    },
+    "interval": {
+      "type": "number",
+      "minimum": 0,
+      "exclusive-minimum": true
+    }
+  ],
+  "required": [ "file" ]
+}
