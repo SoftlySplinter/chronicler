@@ -4,13 +4,16 @@ Creation of a daemon is done through a POST.
 
 ```http
 POST /daemon HTTP/1.1
-
+```
+```json
 {
   "name": "chronicler",
 }
-
+```
+```http
 HTTP/1.1 200 OK
-
+```
+```json
 {
   "name": "chronicler",
   "running": true,
