@@ -1,13 +1,16 @@
 {
+  "id": "http://chronicler.github.io/#",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "callback",
   "description": "A callback method for reporting log entries",
   "type": "object",
-  "properties": [
+  "properties": {
     "type": {
-      "type": "string",
-      
+      "enum": [ "http", "statsd" ]
+    },
+    "details": {
+      "oneOf": [ "#/definitions/callback/http", "#/definitions/callback/statsd" ]
     }
-  ],
-  "required": [ ]
+  },
+  "required": [ 'type' ]
 }

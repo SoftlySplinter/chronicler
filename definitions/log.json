@@ -3,7 +3,7 @@
   "title": "Log",
   "description": "Log file",
   "type": "object",
-  "properties": [
+  "properties": {
     "file": {
       "description": "The location and filename of the logfile to monitor (on the filesystem local to Chronicler)",
       "type": "string"
@@ -14,6 +14,6 @@
       "minimum": 0,
       "exclusive-minimum": true
     }
-  ],
+  },
   "required": [ "file" ]
 }

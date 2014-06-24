@@ -1,0 +1,11 @@
+{
+  "id": "http://chronicler.github.io/#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "http",
+  "description": "A HTTP(S)-based callback method",
+  "type": "object",
+  "properties": {
+    
+  },
+  "required": [  ]
+}
