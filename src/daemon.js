@@ -39,9 +39,7 @@ Daemons.prototype.pause = function(name, pause) {
 }
 
 Daemons.prototype.del = function(name) {
-  daemon = get(name);
-  daemons[name] = undefined;
-  return daemon;
+  this.daemons[name] = undefined;
 }
 
 module.exports = new Daemons();

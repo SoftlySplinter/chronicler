@@ -45,6 +45,17 @@ server.get("/daemon/:name", function(req, res, next) {
 server.patch("/daemon/:name", function(req, res, next) {
   try {
     res.json(daemon.pause(req.params.name, req.body.pause));
+    return next();
+  } catch (ex) {
+    return next(new restify.InvalidContentError(ex.message));
+  }
+})
+
+server.del("/daemon/:name", function(req, res, next) {
+  try {
+    daemon.del(req.params.name);
+    res.send(204);
+    return next();
   } catch (ex) {
     return next(new restify.InvalidContentError(ex.message));
   }
