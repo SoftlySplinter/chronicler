@@ -5,10 +5,12 @@
   "type": "object",
   "properties": [
     "file": {
+      "description": "The location and filename of the logfile to monitor (on the filesystem local to Chronicler)",
       "type": "string"
     },
     "interval": {
-      "type": "number",
+      "description": "The interval at which to poll the logfile in milliseconds",
+      "type": "integer",
       "minimum": 0,
       "exclusive-minimum": true
     }

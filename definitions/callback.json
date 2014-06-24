@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "callback",
+  "description": "A callback method for reporting log entries",
+  "type": "object",
+  "properties": [
+    "type": {
+      "type": "string",
+      
+    }
+  ],
+  "required": [ ]
+}
