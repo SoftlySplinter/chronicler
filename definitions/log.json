@@ -15,5 +15,6 @@
       "exclusive-minimum": true
     }
   },
-  "required": [ "file" ]
+  "required": [ "file" ],
+  "additionalProperties": false
 }

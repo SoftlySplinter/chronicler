@@ -7,9 +7,6 @@
     "name": {
       "description": "Name of the Daemon",
       "type": "string"
-    },
-    "interval": {
-      "type": "integer"
     }
   },
   "required": [ "name" ],

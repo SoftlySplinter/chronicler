@@ -3,15 +3,18 @@ tv4 = require("tv4");
 
 module.exports = {
   setUp: function(callback) {
-    this.schema = JSON.parse(fs.readFileSync(__dirname + "/../definitions/daemon.json", "utf8"));
+    this.schema = JSON.parse(fs.readFileSync(__dirname + "/../definitions/log.json", "utf8"));
     this.valid = [
-      { name: "Chronicler" },
+      { file: "/var/syslog" },
+      { file: "/var/syslog", interval: 1000 }
     ];
     this.invalid = [
       {},
-      { name: 250 },
-      { n: "Chronicler" },
-      { name: "Chronicler", other: "Blah" }
+      { file: 100 },
+      { file: "/var/syslog", interval: "1000" },
+      { file: "/var/syslog", interval: -1 },
+      { file: "/var/syslog", name: "System Log" },
+      { file: "/var/syslog", interval: 1000, name: "System Log" }
     ];
     callback();
   },

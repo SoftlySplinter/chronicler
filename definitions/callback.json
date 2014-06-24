@@ -13,4 +13,5 @@
     }
   },
   "required": [ 'type' ]
+  "additionalProperties": false
 }
