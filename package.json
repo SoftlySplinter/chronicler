@@ -5,7 +5,10 @@
   "keywords": [],
   "author": "Alexander D Brown <alex@alexanderdbrown.com>",
   "contirbutors": [],
-  "dependencies": [ "tv4" ],
+  "dependencies": {
+    "tv4": "", 
+    "restify": ""
+  },
   "repository": { 
     "type": "git", 
     "url": "git://github.com/SoftlySplinter/chronicler.git"
