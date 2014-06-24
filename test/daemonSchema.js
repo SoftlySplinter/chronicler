@@ -3,7 +3,7 @@ tv4 = require("tv4");
 
 module.exports = {
   setUp: function(callback) {
-    this.schema = JSON.parse(fs.readFileSync(__dirname + "/definitions/daemon.json", "utf8"));
+    this.schema = JSON.parse(fs.readFileSync(__dirname + "/../definitions/daemon.json", "utf8"));
     this.valid = [
       { name: "Chronicler" },
       { name: "Chronicler", interval: 1000 }
