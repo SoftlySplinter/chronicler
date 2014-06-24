@@ -7,14 +7,10 @@ function Daemon(details) {
 }
 
 Daemon.prototype.pause = function(pause) {
-  if(pause && !this.running) {
-    throw new Error("Daemon is already paused");
+  if(this.running != pause) {
+    throw new Error("Already in that state");
   }
-  if(!pause && this.running) {
-    throw new Error("Daemon is already running");
-  }
-
-  this.running = pause;
+  this.running = !pause;
   return this;
 }
 
@@ -31,14 +27,15 @@ Daemons.prototype.create = function(daemon) {
 }
 
 Daemons.prototype.get = function(name) {
-  if(this.daemons[daemon.name] === undefined) {
+  d = this.daemons[name]
+  if(d === undefined) {
     throw new Error("No daemon");
   }
-  return this.daemons.get(name);
+  return d;
 }
 
 Daemons.prototype.pause = function(name, pause) {
-  return this.get(name).pause();
+  return this.get(name).pause(pause);
 }
 
 Daemons.prototype.del = function(name) {
