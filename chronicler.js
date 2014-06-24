@@ -54,7 +54,7 @@ server.patch("/daemon/:name", function(req, res, next) {
 server.del("/daemon/:name", function(req, res, next) {
   try {
     daemon.del(req.params.name);
-    res.send(204);
+    res.send(200);
     return next();
   } catch (ex) {
     return next(new restify.InvalidContentError(ex.message));
