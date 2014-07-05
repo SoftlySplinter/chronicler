@@ -7,11 +7,15 @@
   "contirbutors": [],
   "dependencies": {
     "tv4": "", 
-    "restify": ""
+    "restify": "",
+    "supertest": ""
   },
   "repository": { 
     "type": "git", 
     "url": "git://github.com/SoftlySplinter/chronicler.git"
   },
-  "main": "chronicler.js"
+  "main": "chronicler.js",
+  "scripts": {
+    "test": "nodeunit test/"
+  }
 }

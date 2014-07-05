@@ -11,3 +11,5 @@ server.use(restify.bodyParser());
 daemonApi.register(server);
 
 server.listen(8080);
+
+module.exports = server;
