@@ -1,6 +1,6 @@
 # Chronicler
 
-!()[https://travis-ci.org/SoftlySplinter/chronicler.svg]
+![](https://travis-ci.org/SoftlySplinter/chronicler.svg)
 
 Monitor your logs.
 
