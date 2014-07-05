@@ -1,5 +1,7 @@
 # Chronicler
 
+!()[https://travis-ci.org/SoftlySplinter/chronicler.svg]
+
 Monitor your logs.
 
 ## Table of Contents
