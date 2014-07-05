@@ -7,7 +7,10 @@
   "contirbutors": [],
   "dependencies": {
     "tv4": "", 
-    "restify": "",
+    "restify": ""
+  },
+  "devDependencies": {
+    "nodeunit": "",
     "supertest": ""
   },
   "repository": { 
