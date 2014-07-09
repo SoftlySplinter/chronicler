@@ -1,6 +1,6 @@
 # Chronicler
 
-![](https://travis-ci.org/SoftlySplinter/chronicler.svg)
+![](https://travis-ci.org/SoftlySplinter/chronicler.svg)&nbsp;[![Coverage Status](https://coveralls.io/repos/SoftlySplinter/chronicler/badge.png?branch=schema)](https://coveralls.io/r/SoftlySplinter/chronicler?branch=schema)
 
 Monitor your logs.
 
