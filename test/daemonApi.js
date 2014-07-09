@@ -2,7 +2,7 @@ request = require('supertest');
 
 module.exports = {
   setUp: function(callback) {
-    this.chronicler = require("../chronicler.js");
+    this.chronicler = require("../");
     this.chronicler.listen(8080);
     callback();
   },
@@ -38,16 +38,8 @@ module.exports = {
   },
 
   testCreateDuplicateDaemonReturns400: function(test) {
-    testerDaemon = { name: 'duplicateTester' }
-    request(this.chronicler)
-    .post('/daemon')
-    .send( testerDaemon )
-    .expect(201, testerDaemon)
-    .end(function(err, res) {
-      if(err) {
-        test.ok(false, err.message);
-      }
-    });
+    // TODO Create a daemon rather than use one from a previous test.
+    testerDaemon = { name: 'tester' }
     request(this.chronicler)
     .post('/daemon')
     .send( testerDaemon )

@@ -6,19 +6,22 @@
   "author": "Alexander D Brown <alex@alexanderdbrown.com>",
   "contirbutors": [],
   "dependencies": {
-    "tv4": "", 
+    "tv4": "",
     "restify": ""
   },
   "devDependencies": {
-    "nodeunit": "",
+    "coveralls": "^2.11.1",
+    "jscoverage": "^0.5.4",
+    "nodeunit": "^0.9.0",
     "supertest": ""
   },
-  "repository": { 
-    "type": "git", 
+  "repository": {
+    "type": "git",
     "url": "git://github.com/SoftlySplinter/chronicler.git"
   },
   "main": "chronicler.js",
   "scripts": {
-    "test": "nodeunit test/"
+    "test": "nodeunit test",
+    "coveralls": "jscoverage lib && CHRONICLER_COVERAGE=1 nodeunit --reporter=lcov test | coveralls"
   }
 }
