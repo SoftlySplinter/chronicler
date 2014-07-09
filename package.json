@@ -6,14 +6,14 @@
   "author": "Alexander D Brown <alex@alexanderdbrown.com>",
   "contirbutors": [],
   "dependencies": {
-    "tv4": "",
-    "restify": ""
+    "restify": "^2.8.1",
+    "tv4": "^1.0.18"
   },
   "devDependencies": {
     "coveralls": "^2.11.1",
     "jscoverage": "^0.5.4",
     "nodeunit": "^0.9.0",
-    "supertest": ""
+    "supertest": "^0.13.0"
   },
   "repository": {
     "type": "git",
