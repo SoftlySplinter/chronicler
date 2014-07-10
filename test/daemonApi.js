@@ -114,11 +114,37 @@ module.exports = {
     });
   },
 
+  testPausePausedDaemonReturns400: function(test) {
+    request(this.chronicler.server)
+    .patch('/daemon/' + this.existing.name)
+    .send({ pause: false })
+    .expect(400, { code: 'InvalidContent', message: 'Already running' })
+    .end(function(err, res) {
+      if(err) {
+        test.ok(false, err.message);
+      }
+      test.done();
+    });
+  },
+
   testPauseInvalidDaemonReturns404: function(test) {
     request(this.chronicler.server)
     .patch('/daemon/undefined')
     .send( {pause: true} )
-    .expect(404)
+    .expect(404, { code: 'ResourceNotFound', message: 'undefined' })
+    .end(function(err, res) {
+      if(err) {
+        test.ok(false, err.message);
+      }
+      test.done();
+    });
+  },
+
+  testPatchDaemonWithInvalidDataReturns400: function(test) {
+    request(this.chronicler.server)
+    .patch('/daemon/' + this.existing.name)
+    .send( { foo: 'bar' })
+    .expect(400, { code: 'InvalidContent', message: 'Pause flag not set' })
     .end(function(err, res) {
       if(err) {
         test.ok(false, err.message);
@@ -130,7 +156,7 @@ module.exports = {
   testDeleteValidDaemonReturns200: function(test) {
     request(this.chronicler.server)
     .del('/daemon/' + this.existing.name)
-    .expect(200)
+    .expect(200, {})
     .end(function(err, res) {
       if(err) { test.ok(false, err.message) }
       test.done();
