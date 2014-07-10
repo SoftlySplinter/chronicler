@@ -3,8 +3,30 @@ request = require('supertest');
 module.exports = {
   setUp: function(callback) {
     this.chronicler = require("../");
-    this.chronicler.listen(8080);
-    callback();
+    this.chronicler.start();
+
+    this.existing = {
+      post: {
+        name: "Existing Daemon"
+      },
+      get: {
+        name: "Existing Daemon",
+        running: true,
+        logs: [],
+        callbacks: []
+      }
+    };
+    request(this.chronicler.server)
+    .post('/daemon')
+    .send(this.existing.post)
+    .expect(201, this.existing.post)
+    .end(function(err, res) {
+      if(err) {
+        callback(err);
+      }
+      callback();
+    });
+
   },
   tearDown: function(callback) {
     this.chronicler.close();
@@ -12,7 +34,7 @@ module.exports = {
   },
   testCreateValidDaemonReturns201: function(test) {
     testerDaemon = { name: 'tester' }
-    request(this.chronicler)
+    request(this.chronicler.server)
     .post('/daemon')
     .send( testerDaemon )
     .expect(201, testerDaemon)
@@ -25,7 +47,7 @@ module.exports = {
   },
 
   testCreateInvalidDaemonReturns400: function(test) {
-    request(this.chronicler)
+    request(this.chronicler.server)
     .post('/daemon')
     .send({})
     .expect(400, { code: 'InvalidContent', message: 'Invalid daemon definition' })
@@ -38,11 +60,9 @@ module.exports = {
   },
 
   testCreateDuplicateDaemonReturns400: function(test) {
-    // TODO Create a daemon rather than use one from a previous test.
-    testerDaemon = { name: 'tester' }
-    request(this.chronicler)
+    request(this.chronicler.server)
     .post('/daemon')
-    .send( testerDaemon )
+    .send( this.existing.post )
     .expect(400, { code: 'InvalidContent', message: 'Daemon already exists.' })
     .end(function(err, res) {
       if(err) {
@@ -53,13 +73,9 @@ module.exports = {
   },
 
   testGetValidDaemonReturns200: function(test) {
-    request(this.chronicler).get('/daemon/tester')
-    .expect(200, { 
-      name: 'tester', 
-      running: true, 
-      logs: [], 
-      callbacks: [] 
-    }).end(function(err, res) {
+    request(this.chronicler.server)
+    .get('/daemon/' + this.existing.post.name)
+    .expect(200, this.existing.get).end(function(err, res) {
       if(err) {
         test.ok(false, err.message);
       }
