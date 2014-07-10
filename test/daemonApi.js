@@ -161,5 +161,15 @@ module.exports = {
       if(err) { test.ok(false, err.message) }
       test.done();
     });
-  }
+  },
+
+  testDeleteInvalidDaemonReturns404: function(test) {
+    request(this.chronicler.server)
+    .del('/daemon/undefined')
+    .expect(404, { code: "ResourceNotFound", message: "undefined" })
+    .end(function(err, res) {
+      if(err) { test.ok(false, err.message) }
+      test.done();
+    });
+  },
 }
