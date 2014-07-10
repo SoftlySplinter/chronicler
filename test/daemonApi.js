@@ -6,20 +6,26 @@ module.exports = {
     this.chronicler.start();
 
     this.existing = {
-      post: {
-        name: "Existing Daemon"
+      name: "Existing Daemon",
+      post: function() {
+        return {
+          name: this.name
+        };
       },
-      get: {
-        name: "Existing Daemon",
-        running: true,
-        logs: [],
-        callbacks: []
+      get: function(paused) {
+        return {
+          name: "Existing Daemon",
+          running: !paused || true,
+          logs: [],
+          callbacks: []
+        };
       }
     };
+
     request(this.chronicler.server)
     .post('/daemon')
-    .send(this.existing.post)
-    .expect(201, this.existing.post)
+    .send(this.existing.post())
+    .expect(201, this.existing.post())
     .end(function(err, res) {
       if(err) {
         callback(err);
@@ -62,7 +68,7 @@ module.exports = {
   testCreateDuplicateDaemonReturns400: function(test) {
     request(this.chronicler.server)
     .post('/daemon')
-    .send( this.existing.post )
+    .send( this.existing.post() )
     .expect(400, { code: 'InvalidContent', message: 'Daemon already exists.' })
     .end(function(err, res) {
       if(err) {
@@ -74,8 +80,32 @@ module.exports = {
 
   testGetValidDaemonReturns200: function(test) {
     request(this.chronicler.server)
-    .get('/daemon/' + this.existing.post.name)
-    .expect(200, this.existing.get).end(function(err, res) {
+    .get('/daemon/' + this.existing.name)
+    .expect(200, this.existing.get()).end(function(err, res) {
+      if(err) {
+        test.ok(false, err.message);
+      }
+      test.done();
+    });
+  },
+
+  testGetInvalidDaemonReturns404: function(test) {
+    request(this.chronicler.server)
+    .get('/daemon/undefined')
+    .expect(404)
+    .end(function(err, res) {
+      if(err) { 
+        test.ok(false, err.message); 
+      }
+      test.done();
+    });
+  },
+
+  testPauseValidDaemonReturns200: function(test) {
+    request(this.chronicler.server)
+    .get('/daemon/' + this.existing.name)
+    .expect(200, this.existing.get(true))
+    .end(function(err, res) {
       if(err) {
         test.ok(false, err.message);
       }
