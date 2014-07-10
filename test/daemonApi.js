@@ -12,10 +12,10 @@ module.exports = {
           name: this.name
         };
       },
-      get: function(paused) {
+      get: function(running) {
         return {
           name: "Existing Daemon",
-          running: !paused || true,
+          running: running !== undefined ? running : true,
           logs: [],
           callbacks: []
         };
@@ -105,7 +105,7 @@ module.exports = {
     request(this.chronicler.server)
     .patch('/daemon/' + this.existing.name)
     .send({ pause: true })
-    .expect(200, this.existing.get(true))
+    .expect(200, this.existing.get(false))
     .end(function(err, res) {
       if(err) {
         test.ok(false, err.message);
