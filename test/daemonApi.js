@@ -103,12 +103,36 @@ module.exports = {
 
   testPauseValidDaemonReturns200: function(test) {
     request(this.chronicler.server)
-    .get('/daemon/' + this.existing.name)
+    .patch('/daemon/' + this.existing.name)
+    .send({ pause: true })
     .expect(200, this.existing.get(true))
     .end(function(err, res) {
       if(err) {
         test.ok(false, err.message);
       }
+      test.done();
+    });
+  },
+
+  testPauseInvalidDaemonReturns404: function(test) {
+    request(this.chronicler.server)
+    .patch('/daemon/undefined')
+    .send( {pause: true} )
+    .expect(404)
+    .end(function(err, res) {
+      if(err) {
+        test.ok(false, err.message);
+      }
+      test.done();
+    });
+  },
+
+  testDeleteValidDaemonReturns200: function(test) {
+    request(this.chronicler.server)
+    .del('/daemon/' + this.existing.name)
+    .expect(200)
+    .end(function(err, res) {
+      if(err) { test.ok(false, err.message) }
       test.done();
     });
   }
